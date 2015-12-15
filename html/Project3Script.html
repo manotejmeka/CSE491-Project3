@@ -1,0 +1,254 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Project3Script</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-14"><meta name="DC.source" content="Project3Script.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">clear;
+close <span class="string">all</span>;
+clc;
+
+files = dir(<span class="string">'images/*.bmp'</span>);
+images = cell(1,30);
+eigen_values = zeros(1,30);
+all_images = cell(1,50);
+count = 1;
+figure;
+title(<span class="string">'Original 30 Faces'</span>);
+c = 1;
+<span class="comment">%Getting the face images</span>
+<span class="keyword">for</span> i = 1:length(files)
+    filename =  [<span class="string">'images/'</span> files(i).name];
+
+    <span class="keyword">if</span> mod(i,5)&lt;= 3 &amp;&amp; mod(i,5) &gt;= 1
+        file = imread(filename);
+
+        subplot(3,10,c);
+        imshow(file,[]);
+        title([<span class="string">'Image #'</span> num2str(c)]);
+
+        <span class="comment">% Mean face calculation</span>
+        file = reshape(file,900,1);
+        images{count} = file;
+
+
+        count = count + 1;
+        c = count;
+    <span class="keyword">end</span>
+    all_images{i} = reshape(imread(filename),900,1);
+<span class="keyword">end</span>
+
+fprintf(<span class="string">'\n'</span>);
+
+<span class="comment">% Mean face calculations</span>
+images = cell2mat(images);
+sumImage = zeros(900,1);
+
+all_images = cell2mat(all_images);
+
+<span class="keyword">for</span> j = 1:30
+    <span class="keyword">for</span> k =  1:900
+        sumImage(k,1) = mean(images(k,:));
+
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+meanFace = reshape(sumImage,30,30);
+imshow(meanFace,[]);
+
+<span class="comment">% Original face minuse the mean face</span>
+<span class="keyword">for</span> i = 1: sqrt(length(images))
+   A(:,i)=double(images(:,i))-sumImage(:,1);
+<span class="keyword">end</span>
+
+<span class="comment">% Mean Faces subtracted images</span>
+figure;
+<span class="keyword">for</span> i = 1:30
+    subplot(3,10,i);
+    imshow(reshape(A(:,i),30,30),[]);
+    title([<span class="string">'Image #'</span> num2str(i)]);
+<span class="keyword">end</span>
+covariance = cov(A');
+
+
+disp(<span class="string">'Processing 25...'</span>);
+face(50,25,5,5, covariance, all_images, sumImage);
+disp(<span class="string">'End of process for 25'</span>);
+
+disp(<span class="string">'Processing 20...'</span>);
+face(50,20,5,4, covariance, all_images, sumImage);
+disp(<span class="string">'End of process for 20'</span>);
+
+disp(<span class="string">'Processing 10...'</span>);
+face(50,10,2,5, covariance, all_images, sumImage);
+disp(<span class="string">'End of process for 10'</span>);
+
+disp(<span class="string">'Processing 5...'</span>);
+face(50,5,1,5, covariance, all_images, sumImage);
+disp(<span class="string">'End of process for 5'</span>);
+</pre><pre class="codeoutput">
+Processing 25...
+Begin ROC..
+End ROC..
+End of process for 25
+Processing 20...
+Begin ROC..
+End ROC..
+End of process for 20
+Processing 10...
+Begin ROC..
+End ROC..
+End of process for 10
+Processing 5...
+Begin ROC..
+End ROC..
+End of process for 5
+</pre><img vspace="5" hspace="5" src="Project3Script_01.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_02.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_03.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_04.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_05.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_06.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_07.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_08.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_09.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_10.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_11.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_12.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_13.png" alt=""> <img vspace="5" hspace="5" src="Project3Script_14.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clear;
+close all;
+clc;
+
+files = dir('images/*.bmp');
+images = cell(1,30);
+eigen_values = zeros(1,30);
+all_images = cell(1,50);
+count = 1;
+figure;
+title('Original 30 Faces');
+c = 1;
+%Getting the face images
+for i = 1:length(files)
+    filename =  ['images/' files(i).name];
+    
+    if mod(i,5)<= 3 && mod(i,5) >= 1
+        file = imread(filename);
+        
+        subplot(3,10,c);
+        imshow(file,[]);
+        title(['Image #' num2str(c)]);
+        
+        % Mean face calculation 
+        file = reshape(file,900,1);
+        images{count} = file;
+        
+        
+        count = count + 1;
+        c = count;
+    end
+    all_images{i} = reshape(imread(filename),900,1);
+end
+
+fprintf('\n');
+
+% Mean face calculations
+images = cell2mat(images);
+sumImage = zeros(900,1);
+
+all_images = cell2mat(all_images);
+
+for j = 1:30
+    for k =  1:900
+        sumImage(k,1) = mean(images(k,:));
+        
+    end
+end
+
+meanFace = reshape(sumImage,30,30);
+imshow(meanFace,[]);
+
+% Original face minuse the mean face
+for i = 1: sqrt(length(images))
+   A(:,i)=double(images(:,i))-sumImage(:,1);
+end
+
+% Mean Faces subtracted images
+figure;
+for i = 1:30
+    subplot(3,10,i);
+    imshow(reshape(A(:,i),30,30),[]);
+    title(['Image #' num2str(i)]);
+end
+covariance = cov(A');
+
+
+disp('Processing 25...');
+face(50,25,5,5, covariance, all_images, sumImage);
+disp('End of process for 25');
+
+disp('Processing 20...');
+face(50,20,5,4, covariance, all_images, sumImage);
+disp('End of process for 20');
+
+disp('Processing 10...');
+face(50,10,2,5, covariance, all_images, sumImage);
+disp('End of process for 10');
+
+disp('Processing 5...');
+face(50,5,1,5, covariance, all_images, sumImage);
+disp('End of process for 5');
+
+##### SOURCE END #####
+--></body></html>
