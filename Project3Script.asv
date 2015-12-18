@@ -63,22 +63,22 @@ for i = 1:30
 end
 covariance = cov(A');
 
-%% Each Function Calling
-disp('Processing 25...');
-face(50,25,5,5, covariance, all_images, sumImage,'n');
-disp('End of process for 25');
-
-disp('Processing 20...');
-face(50,20,5,4, covariance, all_images, sumImage,'n');
-disp('End of process for 20');
-
-disp('Processing 10...');
-face(50,10,2,5, covariance, all_images, sumImage,'n');
-disp('End of process for 10');
-
-disp('Processing 5...');
-face(50,5,1,5, covariance, all_images, sumImage,'n');
-disp('End of process for 5');
+% %% Each Function Calling
+% disp('Processing 25...');
+% face(50,25,5,5, covariance, all_images, sumImage,'n');
+% disp('End of process for 25');
+% 
+% disp('Processing 20...');
+% face(50,20,5,4, covariance, all_images, sumImage,'n');
+% disp('End of process for 20');
+% 
+% disp('Processing 10...');
+% face(50,10,2,5, covariance, all_images, sumImage,'n');
+% disp('End of process for 10');
+% 
+% disp('Processing 5...');
+% face(50,5,1,5, covariance, all_images, sumImage,'n');
+% disp('End of process for 5');
 
 
 %% My Images

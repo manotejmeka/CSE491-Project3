@@ -20,13 +20,11 @@ end
 
 genCount = 1;
 impCount = 1;
-scoCount = 1;
 for i= 1:total
     for j = i+1:total
         temp = sqrt(sum((W(:,i)-W(:,j)).^2));
         scores(i,j) = temp;
-        score_dis(scoCount,1) = temp;
-        scoCount = scoCount + 1;
+        score_dis(i+j-1,1) = temp;
         if type=='n'
             if idivide(i-1,int32(5)) == idivide (j-1,int32(5))
                 gen(genCount) = temp;
@@ -44,7 +42,7 @@ if type=='n'
 
 elseif type=='m'
     figure;
-    hist(score_dis);
+    histo(score_dis);
 end
 
 end
